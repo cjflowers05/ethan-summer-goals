@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ethan's Road to the Air Force Academy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap');
+
+  :root {
+    --navy: #0a1628;
+    --navy-mid: #111e35;
+    --navy-card: #162240;
+    --navy-border: #1e3460;
+    --text-primary: #e8f1fb;
+    --text-secondary: #8bafd4;
+    --text-muted: #4e6a88;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--navy); color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.6; }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(150deg, #0d1e3a 0%, #071020 100%);
+    border-bottom: 2px solid #00308F;
+    padding: 32px 40px 24px;
+  }
+  .header-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #4a8fd4; margin-bottom: 8px; }
+  .header-title { font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 700; color: #e8f1fb; margin-bottom: 4px; }
+  .header-title span { color: #4a8fd4; }
+  .header-sub { font-size: 12px; color: var(--text-secondary); margin-bottom: 18px; }
+  .header-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill { background: rgba(0,48,143,0.25); border: 1px solid rgba(0,48,143,0.5); border-radius: 20px; padding: 4px 12px; font-size: 11px; color: #90b8e8; }
+  .pill.gold { background: rgba(200,168,75,0.15); border-color: rgba(200,168,75,0.4); color: #e2c87a; }
+  .pill.red { background: rgba(224,60,60,0.15); border-color: rgba(224,60,60,0.4); color: #f08080; }
+
+  /* ── PROGRESS ── */
+  .progress-wrap { background: var(--navy-mid); border-bottom: 1px solid var(--navy-border); padding: 12px 40px; display: flex; align-items: center; gap: 14px; }
+  .progress-label { font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+  .progress-track { flex: 1; height: 5px; background: var(--navy-border); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #00308F, #3dba7e); border-radius: 3px; width: 0%; transition: width 0.4s; }
+  .progress-pct { font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; color: #3dba7e; min-width: 38px; text-align: right; }
+
+  /* ── TABS ── */
+  .tabs-wrap { background: var(--navy-mid); border-bottom: 1px solid var(--navy-border); padding: 0 40px; display: flex; gap: 0; overflow-x: auto; }
+  .tab-btn {
+    padding: 12px 20px; font-size: 12px; font-weight: 500; cursor: pointer;
+    border: none; background: transparent; color: var(--text-muted);
+    border-bottom: 2px solid transparent; white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .tab-btn:hover { color: var(--text-secondary); }
+  .tab-btn.active { color: var(--text-primary); }
+
+  /* per-school tab active colors */
+  .tab-btn.active[data-tab="afa"]     { border-color: #00308F; color: #6fa8dc; }
+  .tab-btn.active[data-tab="erau"]    { border-color: #00549A; color: #60aaee; }
+  .tab-btn.active[data-tab="gatech"]  { border-color: #B3A369; color: #d4c47a; }
+  .tab-btn.active[data-tab="purdue"]  { border-color: #CFB991; color: #d4be96; }
+  .tab-btn.active[data-tab="ncstate"] { border-color: #CC0000; color: #ee7070; }
+
+  /* ── MAIN ── */
+  .main { max-width: 960px; margin: 0 auto; padding: 28px 40px 60px; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* ── SCHOOL BANNER ── */
+  .school-banner {
+    border-radius: 12px; padding: 18px 22px; margin-bottom: 24px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .school-icon { font-size: 28px; flex-shrink: 0; }
+  .school-name { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; }
+  .school-sub { font-size: 12px; margin-top: 2px; }
+  .school-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .stag { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 6px; border: 1px solid; }
+
+  /* AFA theme */
+  .banner-afa { background: linear-gradient(135deg, rgba(0,48,143,0.3) 0%, rgba(0,30,80,0.4) 100%); border: 1px solid rgba(0,48,143,0.5); }
+  .banner-afa .school-name { color: #7ab0f0; }
+  .banner-afa .school-sub { color: #5a80b0; }
+  .stag-afa { background: rgba(0,48,143,0.2); color: #90b8f0; border-color: rgba(0,48,143,0.4); }
+
+  /* ERAU theme */
+  .banner-erau { background: linear-gradient(135deg, rgba(0,84,154,0.3) 0%, rgba(0,40,80,0.4) 100%); border: 1px solid rgba(0,84,154,0.5); }
+  .banner-erau .school-name { color: #60aaee; }
+  .banner-erau .school-sub { color: #50809e; }
+  .stag-erau { background: rgba(0,84,154,0.2); color: #80c0f0; border-color: rgba(0,84,154,0.4); }
+  .stag-erau-gold { background: rgba(255,205,77,0.12); color: #e8c84a; border-color: rgba(255,205,77,0.3); }
+
+  /* Georgia Tech theme */
+  .banner-gatech { background: linear-gradient(135deg, rgba(0,48,87,0.35) 0%, rgba(0,20,40,0.4) 100%); border: 1px solid rgba(179,163,105,0.4); }
+  .banner-gatech .school-name { color: #d4c47a; }
+  .banner-gatech .school-sub { color: #8a7e55; }
+  .stag-gatech { background: rgba(179,163,105,0.15); color: #c8b860; border-color: rgba(179,163,105,0.35); }
+  .stag-gatech-blue { background: rgba(0,48,87,0.25); color: #6090c0; border-color: rgba(0,48,87,0.5); }
+
+  /* Purdue theme */
+  .banner-purdue { background: linear-gradient(135deg, rgba(30,24,14,0.6) 0%, rgba(10,8,4,0.5) 100%); border: 1px solid rgba(207,185,145,0.4); }
+  .banner-purdue .school-name { color: #d4be96; }
+  .banner-purdue .school-sub { color: #8a7850; }
+  .stag-purdue { background: rgba(207,185,145,0.12); color: #cbb880; border-color: rgba(207,185,145,0.3); }
+  .stag-purdue-dark { background: rgba(80,70,50,0.3); color: #a89060; border-color: rgba(100,80,40,0.4); }
+
+  /* NC State theme */
+  .banner-ncstate { background: linear-gradient(135deg, rgba(120,0,0,0.3) 0%, rgba(60,0,0,0.4) 100%); border: 1px solid rgba(204,0,0,0.5); }
+  .banner-ncstate .school-name { color: #ee7070; }
+  .banner-ncstate .school-sub { color: #884444; }
+  .stag-ncstate { background: rgba(204,0,0,0.18); color: #f09090; border-color: rgba(204,0,0,0.4); }
+  .stag-ncstate-dark { background: rgba(30,30,30,0.5); color: #c0c0c0; border-color: rgba(80,80,80,0.4); }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 28px; }
+  .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--navy-border); }
+  .section-icon { font-size: 16px; flex-shrink: 0; }
+  .section-title { font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 700; color: var(--text-primary); }
+  .section-badge { margin-left: auto; font-size: 10px; font-weight: 600; padding: 2px 9px; border-radius: 10px; white-space: nowrap; }
+  .badge-now   { background: rgba(220,60,60,0.18); color: #f08080; border: 1px solid rgba(220,60,60,0.3); }
+  .badge-soon  { background: rgba(200,168,75,0.15); color: #e2c87a; border: 1px solid rgba(200,168,75,0.3); }
+  .badge-fall  { background: rgba(74,143,212,0.15); color: #7ab8e8; border: 1px solid rgba(74,143,212,0.3); }
+  .badge-done  { background: rgba(61,186,126,0.12); color: #7addb0; border: 1px solid rgba(61,186,126,0.25); }
+
+  /* ── CHECKLIST ── */
+  .checklist { display: flex; flex-direction: column; gap: 7px; }
+  .check-item {
+    border-radius: 9px; padding: 10px 14px;
+    display: flex; align-items: flex-start; gap: 11px;
+    cursor: pointer; user-select: none;
+    transition: border-color 0.2s, background 0.2s, opacity 0.2s;
+  }
+  .check-item.done { opacity: 0.55; }
+  .check-item.done .item-title { text-decoration: line-through; }
+
+  /* theme-specific check-item base and done */
+  .ci-afa     { background: rgba(0,48,143,0.12); border: 1px solid rgba(0,48,143,0.3); }
+  .ci-afa:hover { border-color: #00308F; }
+  .ci-afa.done { background: rgba(0,48,143,0.06); border-color: rgba(0,48,143,0.15); }
+
+  .ci-erau     { background: rgba(0,84,154,0.12); border: 1px solid rgba(0,84,154,0.3); }
+  .ci-erau:hover { border-color: #00549A; }
+  .ci-erau.done { background: rgba(0,84,154,0.06); border-color: rgba(0,84,154,0.15); }
+
+  .ci-gatech     { background: rgba(0,48,87,0.18); border: 1px solid rgba(179,163,105,0.25); }
+  .ci-gatech:hover { border-color: #B3A369; }
+  .ci-gatech.done { background: rgba(0,48,87,0.08); border-color: rgba(179,163,105,0.12); }
+
+  .ci-purdue     { background: rgba(20,16,8,0.5); border: 1px solid rgba(207,185,145,0.22); }
+  .ci-purdue:hover { border-color: #CFB991; }
+  .ci-purdue.done { background: rgba(10,8,4,0.5); border-color: rgba(207,185,145,0.1); }
+
+  .ci-ncstate     { background: rgba(120,0,0,0.15); border: 1px solid rgba(204,0,0,0.28); }
+  .ci-ncstate:hover { border-color: #CC0000; }
+  .ci-ncstate.done { background: rgba(60,0,0,0.1); border-color: rgba(204,0,0,0.12); }
+
+  /* checkboxes */
+  .checkbox {
+    width: 19px; height: 19px; border-radius: 5px; border: 1.5px solid;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px; transition: all 0.15s;
+  }
+  .cb-afa     { border-color: rgba(0,48,143,0.6);   background: rgba(0,0,30,0.4); }
+  .cb-erau    { border-color: rgba(0,84,154,0.6);   background: rgba(0,10,30,0.4); }
+  .cb-gatech  { border-color: rgba(179,163,105,0.5);background: rgba(0,10,20,0.4); }
+  .cb-purdue  { border-color: rgba(207,185,145,0.5);background: rgba(10,8,2,0.5); }
+  .cb-ncstate { border-color: rgba(204,0,0,0.5);    background: rgba(20,0,0,0.4); }
+
+  .check-item.done .cb-afa     { background: #00308F; border-color: #00308F; }
+  .check-item.done .cb-erau    { background: #00549A; border-color: #00549A; }
+  .check-item.done .cb-gatech  { background: #B3A369; border-color: #B3A369; }
+  .check-item.done .cb-purdue  { background: #CFB991; border-color: #CFB991; }
+  .check-item.done .cb-ncstate { background: #CC0000; border-color: #CC0000; }
+
+  .checkmark { display: none; color: #fff; font-size: 11px; font-weight: 700; line-height: 1; }
+  .check-item.done .checkmark { display: block; }
+
+  .item-content { flex: 1; min-width: 0; }
+  .item-header  { display: flex; align-items: flex-start; gap: 8px; flex-wrap: wrap; }
+  .item-title   { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+  .item-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.05em; padding: 1px 7px; border-radius: 7px; text-transform: uppercase; flex-shrink: 0; margin-top: 1px; }
+  .tag-now  { background: rgba(220,60,60,0.2);  color: #f09090; }
+  .tag-sum  { background: rgba(200,168,75,0.15); color: #e2c87a; }
+  .tag-fall { background: rgba(74,143,212,0.15); color: #7ab8e8; }
+  .tag-ongoing { background: rgba(61,186,126,0.12); color: #7addb0; }
+  .tag-bonus   { background: rgba(160,120,220,0.15); color: #c0a0f0; }
+  .item-desc { font-size: 12px; color: var(--text-secondary); margin-top: 3px; line-height: 1.5; }
+
+  /* ── ALERT ── */
+  .alert { background: rgba(220,60,60,0.1); border: 1px solid rgba(220,60,60,0.3); border-left: 3px solid #e03c3c; border-radius: 8px; padding: 12px 16px; margin-bottom: 22px; font-size: 12px; color: #f0a0a0; line-height: 1.6; }
+  .alert strong { color: #f07070; }
+
+  /* ── STAT ROW ── */
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px,1fr)); gap: 10px; margin-bottom: 24px; }
+  .stat { background: var(--navy-card); border: 1px solid var(--navy-border); border-radius: 10px; padding: 12px; text-align: center; }
+  .stat-num { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700; line-height: 1.1; }
+  .stat-label { font-size: 10px; color: var(--text-muted); margin-top: 3px; line-height: 1.3; }
+  .sn-blue  { color: #4a8fd4; }
+  .sn-gold  { color: #c8a84b; }
+  .sn-red   { color: #e05a5a; }
+  .sn-green { color: #3dba7e; }
+
+  /* ── SCHOOL COMPARISON (overview) ── */
+  .school-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px,1fr)); gap: 10px; }
+  .school-card {
+    border-radius: 11px; padding: 14px 16px; cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    border: 1px solid;
+  }
+  .school-card:hover { transform: translateY(-2px); }
+  .sc-afa     { background: rgba(0,48,143,0.18); border-color: rgba(0,48,143,0.5); }
+  .sc-erau    { background: rgba(0,84,154,0.18); border-color: rgba(0,84,154,0.5); }
+  .sc-gatech  { background: rgba(0,48,87,0.25);  border-color: rgba(179,163,105,0.4); }
+  .sc-purdue  { background: rgba(20,16,8,0.6);   border-color: rgba(207,185,145,0.4); }
+  .sc-ncstate { background: rgba(120,0,0,0.2);   border-color: rgba(204,0,0,0.45); }
+  .sc-label { font-size: 9px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+  .sc-name  { font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+  .sc-desc  { font-size: 11px; color: var(--text-secondary); line-height: 1.4; margin-bottom: 8px; }
+  .sc-afa  .sc-label, .sc-afa  .sc-name { color: #7ab0f0; }
+  .sc-erau .sc-label, .sc-erau .sc-name { color: #60aaee; }
+  .sc-gatech .sc-label, .sc-gatech .sc-name { color: #d4c47a; }
+  .sc-purdue .sc-label, .sc-purdue .sc-name { color: #d4be96; }
+  .sc-ncstate .sc-label, .sc-ncstate .sc-name { color: #ee7070; }
+  .sc-go { font-size: 10px; font-weight: 600; opacity: 0.8; }
+  .sc-afa .sc-go { color: #7ab0f0; }
+  .sc-erau .sc-go { color: #60aaee; }
+  .sc-gatech .sc-go { color: #d4c47a; }
+  .sc-purdue .sc-go { color: #d4be96; }
+  .sc-ncstate .sc-go { color: #ee7070; }
+
+  /* ── DIVIDER ── */
+  hr { border: none; border-top: 1px solid var(--navy-border); margin: 24px 0; }
+
+  /* ── FOOTER ── */
+  .footer { text-align: center; font-size: 11px; color: var(--text-muted); padding: 16px 40px; border-top: 1px solid var(--navy-border); background: var(--navy-mid); }
+  .footer span { color: #4a8fd4; font-weight: 500; }
+
+  @media (max-width: 600px) {
+    .header, .main { padding-left: 16px; padding-right: 16px; }
+    .progress-wrap, .tabs-wrap { padding-left: 16px; padding-right: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-eyebrow">🎯 Senior Year Mission Briefing — Class of 2027</div>
+  <div class="header-title">Ethan's Road to <span>Flight</span></div>
+  <div class="header-sub">Check off each item as you complete it. Progress saves in your browser. Use the tabs to navigate each school.</div>
+  <div class="header-pills">
+    <div class="pill red">AFA nomination — act now</div>
+    <div class="pill gold">ACT target: 30–33+</div>
+    <div class="pill">AFROTC HSSP deadline: Nov/Dec 2026</div>
+    <div class="pill">AFA final deadline: Jan 31, 2027</div>
+  </div>
+</div>
+
+<div class="progress-wrap">
+  <span class="progress-label">Total progress</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="progress-pct" id="progressPct">0%</span>
+</div>
+
+<!-- TABS -->
+<div class="tabs-wrap">
+  <button class="tab-btn active" data-tab="overview"  onclick="switchTab('overview')">🗺 Overview</button>
+  <button class="tab-btn" data-tab="afa"     onclick="switchTab('afa')">🇺🇸 Air Force Academy</button>
+  <button class="tab-btn" data-tab="erau"    onclick="switchTab('erau')">✈️ Embry-Riddle</button>
+  <button class="tab-btn" data-tab="gatech"  onclick="switchTab('gatech')">🐝 Georgia Tech</button>
+  <button class="tab-btn" data-tab="purdue"  onclick="switchTab('purdue')">🚀 Purdue</button>
+  <button class="tab-btn" data-tab="ncstate" onclick="switchTab('ncstate')">🐺 NC State</button>
+</div>
+
+<div class="main">
+
+<!-- ══════════════════ OVERVIEW TAB ══════════════════ -->
+<div class="tab-content active" id="tab-overview">
+
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num sn-green">4.3</div><div class="stat-label">Weighted GPA</div></div>
+    <div class="stat"><div class="stat-num sn-gold">30–33+</div><div class="stat-label">ACT target for AFA</div></div>
+    <div class="stat"><div class="stat-num sn-red">~11%</div><div class="stat-label">AFA acceptance rate</div></div>
+    <div class="stat"><div class="stat-num sn-blue">3</div><div class="stat-label">Nomination sources</div></div>
+    <div class="stat"><div class="stat-num sn-gold">Jan 31</div><div class="stat-label">AFA final deadline</div></div>
+  </div>
+
+  <div class="alert"><strong>The nomination is the most missed step.</strong> NC Senator and House Rep offices have deadlines as early as September. Contact all three offices this week. Separately, the AFROTC High School Scholarship Program (HSSP) has its own November/December deadline — apply even if AFA is the primary goal.</div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">🏫</span>
+      <span class="section-title">Your School Hierarchy — click to jump to checklist</span>
+    </div>
+    <div class="school-grid">
+      <div class="school-card sc-afa" onclick="switchTab('afa')">
+        <div class="sc-label">Goal #1 — Dream school</div>
+        <div class="sc-name">Air Force Academy</div>
+        <div class="sc-desc">Colorado Springs, CO. Direct commissioning, no tuition, fully funded. Hardest path but most aligned with fighter pilot goal.</div>
+        <div class="sc-go">Open checklist →</div>
+      </div>
+      <div class="school-card sc-erau" onclick="switchTab('erau')">
+        <div class="sc-label">Goal #2 — Top backup</div>
+        <div class="sc-name">Embry-Riddle</div>
+        <div class="sc-desc">Daytona Beach, FL. World's top aviation university. AFROTC Det 157 ranks top 10% nationally. Aerospace Engineering + pilot track.</div>
+        <div class="sc-go">Open checklist →</div>
+      </div>
+      <div class="school-card sc-gatech" onclick="switchTab('gatech')">
+        <div class="sc-label">Backup #3 — Elite engineering</div>
+        <div class="sc-name">Georgia Tech</div>
+        <div class="sc-desc">Atlanta, GA. #2 ranked aerospace engineering in the US. AFROTC Det 165 is one of the largest in the country.</div>
+        <div class="sc-go">Open checklist →</div>
+      </div>
+      <div class="school-card sc-purdue" onclick="switchTab('purdue')">
+        <div class="sc-label">Backup #4 — Neil Armstrong's school</div>
+        <div class="sc-name">Purdue</div>
+        <div class="sc-desc">West Lafayette, IN. 26 NASA astronaut alumni including Neil Armstrong. Legendary aerospace engineering + strong AFROTC.</div>
+        <div class="sc-go">Open checklist →</div>
+      </div>
+      <div class="school-card sc-ncstate" onclick="switchTab('ncstate')">
+        <div class="sc-label">Backup #5 — Home state</div>
+        <div class="sc-name">NC State</div>
+        <div class="sc-desc">Raleigh, NC. 30 min from Holly Springs. AFROTC host detachment on campus. In-state tuition + ROTC scholarship = most affordable path.</div>
+        <div class="sc-go">Open checklist →</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">📋</span>
+      <span class="section-title">Master action items — apply to ALL paths</span>
+      <span class="section-badge badge-now">Start now</span>
+    </div>
+    <div class="checklist">
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="master1">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content">
+          <div class="item-header"><span class="item-title">Register for ACT retest — July or September date</span><span class="item-tag tag-now">This week</span></div>
+          <div class="item-desc">Target 30 minimum, 32+ strongly preferred. Math and Science subscores matter most. AFA does NOT superscore — best single sitting counts. AFROTC scholarship also targets 32+.</div>
+        </div>
+      </div>
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="master2">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content">
+          <div class="item-header"><span class="item-title">Contact all 3 NC congressional offices for nomination applications</span><span class="item-tag tag-now">This week</span></div>
+          <div class="item-desc">Go to congress.gov — enter Holly Springs zip code to find both US Senators + your House Rep. Call each office and ask for their service academy nomination packet and deadline. Some close in September.</div>
+        </div>
+      </div>
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="master3">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content">
+          <div class="item-header"><span class="item-title">Apply for AFROTC High School Scholarship Program (HSSP)</span><span class="item-tag tag-sum">Summer/Fall</span></div>
+          <div class="item-desc">One application at afrotc.com covers all AFROTC host schools. Aeronautical Engineering is a top priority technical major — gives Ethan a scholarship advantage. Deadline typically November/December. Apply even if AFA is the primary goal — ROTC scholarship is your safety net funding.</div>
+        </div>
+      </div>
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="master4">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content">
+          <div class="item-header"><span class="item-title">Build and maintain your master activities resume</span><span class="item-tag tag-ongoing">Ongoing</span></div>
+          <div class="item-desc">One running doc: role, organization, hours/week, total hours, key achievement. Every school and nomination office will ask for this in a slightly different format. Covers: MLSNext Velocity, lifeguarding, UNCG soccer camp, gym training, any volunteer work.</div>
+        </div>
+      </div>
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="master5">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content">
+          <div class="item-header"><span class="item-title">Schedule and complete DoDMERB medical exam</span><span class="item-tag tag-sum">Schedule ASAP</span></div>
+          <div class="item-desc">Required for AFA and AFROTC scholarship. Can take up to 4 months with waivers. Vision is critical for pilot track — know your corrected and uncorrected acuity before the exam. Schedule through your AFA portal once you're a candidate.</div>
+        </div>
+      </div>
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="master6">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content">
+          <div class="item-header"><span class="item-title">Take a discovery flight lesson at a local flight school</span><span class="item-tag tag-sum">This summer</span></div>
+          <div class="item-desc">One flight (~$150–200) at a Part 141 school near Raleigh-Durham. Signals the fighter pilot goal is real. Excellent essay and interview material for every school and nomination office.</div>
+        </div>
+      </div>
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="master7">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content">
+          <div class="item-header"><span class="item-title">Research and document the fighter pilot pipeline (AFA or ROTC → UPT → T-38 → fighters)</span><span class="item-tag tag-sum">This summer</span></div>
+          <div class="item-desc">Know the path cold. Every interview will ask why you want to be a fighter pilot — a specific, informed answer about UPT selection, T-38 tracking, and assignment process shows real commitment versus a surface-level dream.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════ AFA TAB ══════════════════ -->
+<div class="tab-content" id="tab-afa">
+  <div class="school-banner banner-afa">
+    <div class="school-icon">🇺🇸</div>
+    <div>
+      <div class="school-name">United States Air Force Academy</div>
+      <div class="school-sub">Colorado Springs, CO · Acceptance rate ~11% · No tuition · Direct commission · Final deadline Jan 31, 2027</div>
+      <div class="school-tags">
+        <span class="stag stag-afa">ACT 29–34 range</span>
+        <span class="stag stag-afa">Congressional nomination required</span>
+        <span class="stag stag-afa">CFA required</span>
+        <span class="stag stag-afa">DoDMERB required</span>
+        <span class="stag stag-afa">Fighter pilot pipeline</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><span class="section-icon">🏛️</span><span class="section-title">Congressional Nomination</span><span class="section-badge badge-now">Most critical — do now</span></div>
+    <div class="checklist">
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="afa-nom1">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Find all 3 NC representatives at congress.gov (senators + House rep)</span><span class="item-tag tag-now">This week</span></div><div class="item-desc">Enter Holly Springs zip code. Write down names, office numbers, and their academy nomination web pages.</div></div>
+      </div>
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="afa-nom2">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Contact all three offices — request nomination application packets and deadlines</span><span class="item-tag tag-now">This week</span></div><div class="item-desc">Ask: "I'm a rising senior applying to the Air Force Academy. Can you send me the nomination application requirements and deadline?" Some offices close in September.</div></div>
+      </div>
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="afa-nom3">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Log all three nomination deadlines on a calendar — treat each as its own application</span><span class="item-tag tag-now">This month</span></div><div class="item-desc">Three separate applications, three separate deadlines. Missing even one nomination source is a significant setback.</div></div>
+      </div>
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="afa-nom4">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Prepare nomination application materials for each office (essay, transcript, resume)</span><span class="item-tag tag-sum">This summer</span></div><div class="item-desc">Each rep runs their own process. Common asks: transcript, ACT scores, personal essay (why military/AFA), activity resume, teacher recommendations, and sometimes a physical fitness statement.</div></div>
+      </div>
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="afa-nom5">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Complete nomination panel interviews with all available offices</span><span class="item-tag tag-fall">Fall</span></div><div class="item-desc">Dress professionally (business or military casual). Prepare answers: why AFA, why fighter pilot, your best leadership experience, how you handle adversity. Practice out loud with a parent.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><span class="section-icon">🖥️</span><span class="section-title">AFA Candidate Portal</span><span class="section-badge badge-now">Start now</span></div>
+    <div class="checklist">
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="afa-p1">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Submit Pre-Candidate Questionnaire (PCQ) at academyadmissions.com</span><span class="item-tag tag-now">Do now</span></div><div class="item-desc">Step one of the entire AFA process. Deadline is Dec 31 of senior year but do it now — opens your file and triggers outreach with next steps.</div></div>
+      </div>
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="afa-p2">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Request an Admissions Liaison Officer (ALO) through your portal</span><span class="item-tag tag-now">This summer</span></div><div class="item-desc">Your ALO is a local USAF officer who mentors your application, conducts a personal interview, and writes an assessment that goes into your candidate file. Request one as soon as you're registered.</div></div>
+      </div>
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="afa-p3">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Complete the Candidate Kit (online application + essays)</span><span class="item-tag tag-sum">Summer/Early Fall</span></div><div class="item-desc">Two 500-word essays: (1) setback or ethical dilemma you faced and what you learned, (2) meaningful leadership experience. Draft both this summer — they take multiple revisions to get right.</div></div>
+      </div>
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="afa-p4">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Request official high school transcripts sent to AFA</span><span class="item-tag tag-fall">Fall</span></div><div class="item-desc">Contact your school's registrar. AFA will also want Q1 senior year grades later — keep your grades strong in fall.</div></div>
+      </div>
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="afa-p5">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Request 2 letters of recommendation (math/science teacher + English/humanities teacher)</span><span class="item-tag tag-sum">Ask this summer</span></div><div class="item-desc">Give each teacher a one-page brag sheet: your GPA, activities, awards, and specifically why you want to serve as a fighter pilot officer. Ask before school starts — teachers are far less swamped in summer.</div></div>
+      </div>
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="afa-p6">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Monitor candidate portal every 2 weeks for outstanding items and rolling deadlines</span><span class="item-tag tag-ongoing">Ongoing</span></div><div class="item-desc">AFA assigns rolling deadlines specific to your file. Missing a portal deadline is the most common avoidable mistake that ends candidacies.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><span class="section-icon">💪</span><span class="section-title">Physical Fitness & Medical</span><span class="section-badge badge-now">Train now</span></div>
+    <div class="checklist">
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="afa-f1">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Establish baseline on all 6 CFA events (basketball throw, pull-ups, shuttle run, sit-ups, push-ups, 1-mile)</span><span class="item-tag tag-now">This week</span></div><div class="item-desc">Test yourself now. Targets: 7+ pull-ups, 50+ push-ups, sub-6:30 mile. As a soccer player your cardio base is strong — pull-ups and the basketball throw are where athletes often lose points.</div></div>
+      </div>
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="afa-f2">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Add CFA-specific training to weekly garage gym and soccer routine</span><span class="item-tag tag-ongoing">All summer</span></div><div class="item-desc">Pull-up progressions, timed push-up sets, 1-mile repeats. Don't wait until fall — you want your best performance when you officially test, not your first attempt.</div></div>
+      </div>
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="afa-f3">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Schedule DoDMERB medical exam as early as possible</span><span class="item-tag tag-sum">Schedule ASAP</span></div><div class="item-desc">Can take 4+ months with waivers. Fighter pilot track has strict vision standards — know your uncorrected visual acuity before going in. Waivers are possible but take time you don't have if you wait.</div></div>
+      </div>
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="afa-f4">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Take official CFA with PE teacher, JROTC instructor, or ALO — when you're ready</span><span class="item-tag tag-fall">Fall</span></div><div class="item-desc">Only take the official test when you're confident it's your best performance. Score goes directly in your file. Train it first, test it when ready.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><span class="section-icon">✈️</span><span class="section-title">Fighter Pilot Differentiators</span><span class="section-badge badge-done">Stand out</span></div>
+    <div class="checklist">
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="afa-fp1">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Take an intro discovery flight at a local flight school near RDU</span><span class="item-tag tag-sum">This summer</span></div><div class="item-desc">$150–200 at a Part 141 school. Even one flight hour makes every essay and interview answer about becoming a fighter pilot more authentic and specific.</div></div>
+      </div>
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="afa-fp2">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Look into Civil Air Patrol — find local NC squadron at gocivilairpatrol.com</span><span class="item-tag tag-sum">Summer/Fall</span></div><div class="item-desc">Official USAF Auxiliary. Cadets get orientation flights, aerospace education, and leadership training. Even a few months signals serious alignment with USAF culture.</div></div>
+      </div>
+      <div class="check-item ci-afa" onclick="toggle(this)" data-id="afa-fp3">
+        <div class="checkbox cb-afa"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Research the full pilot pipeline: AFA → commissioning → UPT → T-38 → fighter assignment</span><span class="item-tag tag-sum">This summer</span></div><div class="item-desc">Know every stage. In every nomination interview and ALO interview you'll be asked why fighter pilot — a specific, informed answer beats "I love planes."</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ ERAU TAB ══════════════════ -->
+<div class="tab-content" id="tab-erau">
+  <div class="school-banner banner-erau">
+    <div class="school-icon">✈️</div>
+    <div>
+      <div class="school-name">Embry-Riddle Aeronautical University — Daytona Beach</div>
+      <div class="school-sub">Daytona Beach, FL · World's #1 aviation university · AFROTC Det 157 (top 10% nationally, largest in country) · Backup #1</div>
+      <div class="school-tags">
+        <span class="stag stag-erau">Aerospace Engineering BS</span>
+        <span class="stag stag-erau">AFROTC Det 157 — on campus</span>
+        <span class="stag stag-erau-gold">Highest rated ROTC flight officer production</span>
+        <span class="stag stag-erau">Early Action: Nov 1</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><span class="section-icon">📝</span><span class="section-title">Admissions Application</span><span class="section-badge badge-now">Apply early action</span></div>
+    <div class="checklist">
+      <div class="check-item ci-erau" onclick="toggle(this)" data-id="erau-a1">
+        <div class="checkbox cb-erau"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Create account and start application at erau.edu/admissions</span><span class="item-tag tag-sum">This summer</span></div><div class="item-desc">ERAU has its own application portal (not Common App). Select Daytona Beach campus, Aerospace Engineering BS. Declare intent for AFROTC and pilot track in your application.</div></div>
+      </div>
+      <div class="check-item ci-erau" onclick="toggle(this)" data-id="erau-a2">
+        <div class="checkbox cb-erau"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Write ERAU personal statement — focus on aviation passion and AFROTC goal</span><span class="item-tag tag-sum">This summer</span></div><div class="item-desc">ERAU wants to know why aviation. Your lifeguarding (discipline + responsibility), MLSNext (elite athletic commitment), and fighter pilot dream all connect here. Be specific about why ERAU specifically — not generic aviation interest.</div></div>
+      </div>
+      <div class="check-item ci-erau" onclick="toggle(this)" data-id="erau-a3">
+        <div class="checkbox cb-erau"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Request official transcripts sent to ERAU</span><span class="item-tag tag-fall">Fall</span></div><div class="item-desc">Official transcripts through your high school registrar. ERAU is test-optional but submit ACT scores — a strong score (30+) and your 4.3 GPA make you a scholarship-competitive applicant.</div></div>
+      </div>
+      <div class="check-item ci-erau" onclick="toggle(this)" data-id="erau-a4">
+        <div class="checkbox cb-erau"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Submit Early Action application by November 1</span><span class="item-tag tag-fall">Nov 1</span></div><div class="item-desc">Early Action gives you an admission decision before you need to commit to AFA or other schools. No binding — gives you flexibility. Aim for this deadline over regular decision.</div></div>
+      </div>
+      <div class="check-item ci-erau" onclick="toggle(this)" data-id="erau-a5">
+        <div class="checkbox cb-erau"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Apply for ERAU merit scholarships (Presidential, Dean's, Eagle)</span><span class="item-tag tag-fall">With application</span></div><div class="item-desc">ERAU automatically considers admitted students for merit scholarships based on GPA and test scores. With a 4.3 GPA he is in range for significant institutional aid on top of any ROTC scholarship.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><span class="section-icon">🎖️</span><span class="section-title">AFROTC Det 157 — Daytona Beach</span><span class="section-badge badge-soon">Apply for scholarship</span></div>
+    <div class="checklist">
+      <div class="check-item ci-erau" onclick="toggle(this)" data-id="erau-r1">
+        <div class="checkbox cb-erau"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Apply for AFROTC HSSP scholarship at afrotc.com — list Aerospace Engineering as major</span><span class="item-tag tag-sum">Summer/Fall</span></div><div class="item-desc">Aerospace Engineering is a high-priority technical major for AFROTC scholarships. 80% of scholarships go to technical majors. One application covers all host detachments. Type 1 = full tuition. Type 2 = $18K/year. Deadline Nov/Dec.</div></div>
+      </div>
+      <div class="check-item ci-erau" onclick="toggle(this)" data-id="erau-r2">
+        <div class="checkbox cb-erau"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Prepare for AFROTC scholarship interview — the single most weighted factor</span><span class="item-tag tag-fall">Before interview</span></div><div class="item-desc">The AFROTC interview carries more weight than GPA or ACT. Practice your "why Air Force," "why pilot," and leadership stories out loud. Know your activity resume cold. Dress as if it's a military panel — because it is.</div></div>
+      </div>
+      <div class="check-item ci-erau" onclick="toggle(this)" data-id="erau-r3">
+        <div class="checkbox cb-erau"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Contact AFROTC Det 157 directly at Daytona Beach campus — express interest</span><span class="item-tag tag-fall">Fall</span></div><div class="item-desc">Reach out to the detachment commander. Ask about the program, cadet life, and pilot selection rates. Det 157 has the highest Rated Officer (pilot) selection of any AFROTC detachment in the country — mention that you know this and why it matters to you.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><span class="section-icon">🛩️</span><span class="section-title">Aerospace Engineering — Program Prep</span><span class="section-badge badge-done">Strengthen application</span></div>
+    <div class="checklist">
+      <div class="check-item ci-erau" onclick="toggle(this)" data-id="erau-e1">
+        <div class="checkbox cb-erau"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Confirm you are enrolled in or have taken Precalculus/Calculus and Physics</span><span class="item-tag tag-now">Check now</span></div><div class="item-desc">ERAU's Aerospace Engineering program is math and physics-heavy. Calculus and Physics are required prerequisites. Senior year course load should include at least one of these if not already completed.</div></div>
+      </div>
+      <div class="check-item ci-erau" onclick="toggle(this)" data-id="erau-e2">
+        <div class="checkbox cb-erau"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Research ERAU's Aerospace Engineering curriculum — familiarize with core courses</span><span class="item-tag tag-sum">This summer</span></div><div class="item-desc">Aerodynamics, propulsion, structures, flight dynamics. Knowing what's ahead shows interviewers you understand the commitment. It also prepares you mentally for the academic rigor.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ GEORGIA TECH TAB ══════════════════ -->
+<div class="tab-content" id="tab-gatech">
+  <div class="school-banner banner-gatech">
+    <div class="school-icon">🐝</div>
+    <div>
+      <div class="school-name">Georgia Institute of Technology</div>
+      <div class="school-sub">Atlanta, GA · #2 ranked aerospace engineering (US News 2026) · AFROTC Det 165 — one of largest in nation · Backup #2</div>
+      <div class="school-tags">
+        <span class="stag stag-gatech">Aerospace Engineering BS</span>
+        <span class="stag stag-gatech-blue">AFROTC Det 165 — host</span>
+        <span class="stag stag-gatech">Early Action: Oct 15</span>
+        <span class="stag stag-gatech">Acceptance ~17%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><span class="section-icon">📝</span><span class="section-title">Admissions Application</span><span class="section-badge badge-now">Competitive — start early</span></div>
+    <div class="checklist">
+      <div class="check-item ci-gatech" onclick="toggle(this)" data-id="gt-a1">
+        <div class="checkbox cb-gatech"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Create Common App account and add Georgia Tech</span><span class="item-tag tag-sum">This summer</span></div><div class="item-desc">Georgia Tech uses the Common App. Select Aerospace Engineering in the College of Engineering. Note: Georgia Tech is highly competitive (~17% acceptance rate) — it's a reach even with a 4.3 GPA. Apply anyway; ROTC scholarship makes it viable financially.</div></div>
+      </div>
+      <div class="check-item ci-gatech" onclick="toggle(this)" data-id="gt-a2">
+        <div class="checkbox cb-gatech"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Write Georgia Tech supplemental essays</span><span class="item-tag tag-sum">This summer</span></div><div class="item-desc">GT essays: (1) why Georgia Tech, (2) your major and why, (3) a challenge you've faced. Your fighter pilot goal + aerospace engineering connection + ROTC plan make a compelling "why GT" story. Be specific about the Daniel Guggenheim School.</div></div>
+      </div>
+      <div class="check-item ci-gatech" onclick="toggle(this)" data-id="gt-a3">
+        <div class="checkbox cb-gatech"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Submit Early Action application by October 15</span><span class="item-tag tag-fall">Oct 15</span></div><div class="item-desc">GT Early Action is non-binding but gives you a decision in mid-February — before AFA decisions come out. Being early signals seriousness and slightly improves odds at a school this competitive.</div></div>
+      </div>
+      <div class="check-item ci-gatech" onclick="toggle(this)" data-id="gt-a4">
+        <div class="checkbox cb-gatech"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Request official transcripts, ACT scores, and letters of recommendation</span><span class="item-tag tag-fall">Fall</span></div><div class="item-desc">GT requires 2 teacher recs (ideally math/science and English). Your ACT score matters more at GT than at ERAU — aim for 32+ to be competitive for the engineering program.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><span class="section-icon">🎖️</span><span class="section-title">AFROTC Det 165 at Georgia Tech</span><span class="section-badge badge-soon">Highly rated program</span></div>
+    <div class="checklist">
+      <div class="check-item ci-gatech" onclick="toggle(this)" data-id="gt-r1">
+        <div class="checkbox cb-gatech"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Apply for AFROTC HSSP scholarship — list Aerospace Engineering, indicate GT as school of interest</span><span class="item-tag tag-sum">Fall</span></div><div class="item-desc">One AFROTC scholarship application at afrotc.com. A Type 1 (full tuition) scholarship at GT would cover significant out-of-state costs. Aerospace Engineering as a technical major gives Ethan a priority advantage for the scholarship board.</div></div>
+      </div>
+      <div class="check-item ci-gatech" onclick="toggle(this)" data-id="gt-r2">
+        <div class="checkbox cb-gatech"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Email AFROTC Det 165 to express interest and ask about cadet visit opportunities</span><span class="item-tag tag-fall">Fall</span></div><div class="item-desc">Detachment 165 is one of the largest and most competitive programs in the country. Reaching out proactively and visiting if possible shows initiative — ROTC commanders notice recruits who seek them out.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><span class="section-icon">📐</span><span class="section-title">Academic Prep for Engineering</span><span class="section-badge badge-done">Strengthen now</span></div>
+    <div class="checklist">
+      <div class="check-item ci-gatech" onclick="toggle(this)" data-id="gt-e1">
+        <div class="checkbox cb-gatech"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Confirm Calculus and Physics are in senior year schedule (or already completed)</span><span class="item-tag tag-now">Check now</span></div><div class="item-desc">GT's aerospace engineering program is one of the most rigorous in the country. Having Calc BC and Physics completed before arrival puts you in a much stronger position in the first semester.</div></div>
+      </div>
+      <div class="check-item ci-gatech" onclick="toggle(this)" data-id="gt-e2">
+        <div class="checkbox cb-gatech"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Research the Daniel Guggenheim School of Aerospace Engineering's key tracks</span><span class="item-tag tag-sum">This summer</span></div><div class="item-desc">Aerodynamics, propulsion, flight mechanics, aerostructures. Understanding the specific tracks available at GT and which aligns with fighter pilot development makes your essays and interviews significantly more compelling.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ PURDUE TAB ══════════════════ -->
+<div class="tab-content" id="tab-purdue">
+  <div class="school-banner banner-purdue">
+    <div class="school-icon">🚀</div>
+    <div>
+      <div class="school-name">Purdue University</div>
+      <div class="school-sub">West Lafayette, IN · Neil Armstrong's school · 26 NASA astronaut alumni · AFROTC host detachment · Backup #3</div>
+      <div class="school-tags">
+        <span class="stag stag-purdue">Aeronautical & Astronautical Engineering BS</span>
+        <span class="stag stag-purdue">AFROTC Det 220 — host</span>
+        <span class="stag stag-purdue">Early Action: Nov 1</span>
+        <span class="stag stag-purdue-dark">Largest academic propulsion lab</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><span class="section-icon">📝</span><span class="section-title">Admissions Application</span><span class="section-badge badge-now">Strong match for his profile</span></div>
+    <div class="checklist">
+      <div class="check-item ci-purdue" onclick="toggle(this)" data-id="pur-a1">
+        <div class="checkbox cb-purdue"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Apply directly at admissions.purdue.edu — Purdue does not use Common App</span><span class="item-tag tag-sum">This summer</span></div><div class="item-desc">Purdue has its own application system. Select School of Aeronautics and Astronautics. With a 4.3 GPA and strong ACT, Purdue engineering is achievable — average ACT for engineering admits is ~32.</div></div>
+      </div>
+      <div class="check-item ci-purdue" onclick="toggle(this)" data-id="pur-a2">
+        <div class="checkbox cb-purdue"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Write Purdue essays — "Why Purdue" and your goals in aerospace</span><span class="item-tag tag-sum">This summer</span></div><div class="item-desc">Neil Armstrong graduated from Purdue's aeronautics program. The history is a genuine, specific "why Purdue" hook for a student who wants to be a fighter pilot and eventually an astronaut. Use it — but make it your own.</div></div>
+      </div>
+      <div class="check-item ci-purdue" onclick="toggle(this)" data-id="pur-a3">
+        <div class="checkbox cb-purdue"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Submit Early Action application by November 1</span><span class="item-tag tag-fall">Nov 1</span></div><div class="item-desc">Purdue's EA deadline is November 1. EA does not require commitment but typically yields stronger scholarship consideration and faster decisions.</div></div>
+      </div>
+      <div class="check-item ci-purdue" onclick="toggle(this)" data-id="pur-a4">
+        <div class="checkbox cb-purdue"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Request official transcripts and ACT scores sent to Purdue</span><span class="item-tag tag-fall">Fall</span></div><div class="item-desc">Purdue engineering admits are typically top 10–15% of their class with strong math/science records. Your 4.3 GPA is competitive — your ACT math subscore matters here specifically.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><span class="section-icon">🎖️</span><span class="section-title">AFROTC Det 220 at Purdue</span><span class="section-badge badge-soon">Strong pilot pipeline</span></div>
+    <div class="checklist">
+      <div class="check-item ci-purdue" onclick="toggle(this)" data-id="pur-r1">
+        <div class="checkbox cb-purdue"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Apply for AFROTC HSSP scholarship listing Purdue and Aeronautical Engineering</span><span class="item-tag tag-fall">Fall</span></div><div class="item-desc">Same HSSP application at afrotc.com. Out-of-state tuition at Purdue is significant (~$28K/year) — a Type 1 ROTC scholarship covering full tuition makes Purdue very competitive financially versus in-state options.</div></div>
+      </div>
+      <div class="check-item ci-purdue" onclick="toggle(this)" data-id="pur-r2">
+        <div class="checkbox cb-purdue"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Research Purdue AFROTC Det 220 and reach out to express interest</span><span class="item-tag tag-fall">Fall</span></div><div class="item-desc">Purdue has one of the most well-regarded AFROTC programs in the Big Ten. The engineering + ROTC combination produces officers with both deep technical expertise and military bearing — exactly what pilot selection boards look for.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><span class="section-icon">🛸</span><span class="section-title">Aerospace Program Highlights</span><span class="section-badge badge-done">Know before you apply</span></div>
+    <div class="checklist">
+      <div class="check-item ci-purdue" onclick="toggle(this)" data-id="pur-e1">
+        <div class="checkbox cb-purdue"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Confirm Calculus and Physics are in senior schedule — required for AAE admission</span><span class="item-tag tag-now">Check now</span></div><div class="item-desc">Purdue's Aeronautics and Astronautics program is one of the most challenging in the country. Calc and Physics prerequisites are non-negotiable for the first-year curriculum.</div></div>
+      </div>
+      <div class="check-item ci-purdue" onclick="toggle(this)" data-id="pur-e2">
+        <div class="checkbox cb-purdue"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Look into Purdue's Flight Training Program alongside AAE degree</span><span class="item-tag tag-sum">This summer</span></div><div class="item-desc">Purdue has a dedicated aviation flight lab — students can pursue FAA pilot certifications alongside the engineering degree. This is rare and uniquely valuable for a student whose goal is to fly fighters after commissioning.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ NC STATE TAB ══════════════════ -->
+<div class="tab-content" id="tab-ncstate">
+  <div class="school-banner banner-ncstate">
+    <div class="school-icon">🐺</div>
+    <div>
+      <div class="school-name">NC State University</div>
+      <div class="school-sub">Raleigh, NC · 30 min from Holly Springs · In-state tuition · AFROTC Det 595 "Wolfpack Warriors" on campus · Backup #4</div>
+      <div class="school-tags">
+        <span class="stag stag-ncstate">Aerospace Engineering BS</span>
+        <span class="stag stag-ncstate-dark">AFROTC Det 595 — host</span>
+        <span class="stag stag-ncstate">Early Action: Oct 15</span>
+        <span class="stag stag-ncstate">In-state tuition ~$9,100/yr</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><span class="section-icon">📝</span><span class="section-title">Admissions Application</span><span class="section-badge badge-now">Safety school — still apply early</span></div>
+    <div class="checklist">
+      <div class="check-item ci-ncstate" onclick="toggle(this)" data-id="nc-a1">
+        <div class="checkbox cb-ncstate"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Create account and apply at admissions.ncsu.edu</span><span class="item-tag tag-sum">This summer</span></div><div class="item-desc">NC State uses its own application portal. Select Engineering → Aerospace Engineering. With a 4.3 GPA, Ethan is a strong applicant. Average admitted student has ~4.4 weighted GPA and ~1280 SAT / ~29 ACT.</div></div>
+      </div>
+      <div class="check-item ci-ncstate" onclick="toggle(this)" data-id="nc-a2">
+        <div class="checkbox cb-ncstate"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Write NC State personal statement — lean into the in-state connection and AFROTC goal</span><span class="item-tag tag-sum">This summer</span></div><div class="item-desc">Living 30 minutes away, knowing the campus, and having a specific plan (Aerospace Engineering + AFROTC Det 595 → commission → fighter pilot) is a compelling, grounded narrative. Show you've thought this through.</div></div>
+      </div>
+      <div class="check-item ci-ncstate" onclick="toggle(this)" data-id="nc-a3">
+        <div class="checkbox cb-ncstate"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Submit Early Action application by October 15</span><span class="item-tag tag-fall">Oct 15</span></div><div class="item-desc">NC State EA deadline is October 15. EA is non-binding and puts you in the first wave of decisions — typically notified by January. Gives you a confirmed safety before AFA decisions in spring.</div></div>
+      </div>
+      <div class="check-item ci-ncstate" onclick="toggle(this)" data-id="nc-a4">
+        <div class="checkbox cb-ncstate"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Apply for NC State merit scholarships (Park Scholarship, Caldwell Fellows, Centennial)</span><span class="item-tag tag-fall">With application</span></div><div class="item-desc">Park Scholars is one of the most prestigious merit scholarships in the US — full ride + stipend. Competitive but his profile (GPA, athletics, service, leadership) is well suited. Centennial Scholarship is auto-considered at admission. Apply for all.</div></div>
+      </div>
+      <div class="check-item ci-ncstate" onclick="toggle(this)" data-id="nc-a5">
+        <div class="checkbox cb-ncstate"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Request official transcripts, ACT scores, and letters of recommendation</span><span class="item-tag tag-fall">Fall</span></div><div class="item-desc">NC State requires official transcripts from high school. Letters of rec are optional for general admission but required for competitive scholarships like Park — submit them regardless.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><span class="section-icon">🎖️</span><span class="section-title">AFROTC Det 595 "Wolfpack Warriors"</span><span class="section-badge badge-done">On campus — closest to home</span></div>
+    <div class="checklist">
+      <div class="check-item ci-ncstate" onclick="toggle(this)" data-id="nc-r1">
+        <div class="checkbox cb-ncstate"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Apply for AFROTC HSSP scholarship listing NC State and Aerospace Engineering</span><span class="item-tag tag-fall">Fall</span></div><div class="item-desc">In-state tuition at NC State is ~$9,100/year. An AFROTC scholarship on top of that = almost free college. Even a Type 2 ($18K/year) would more than cover in-state costs. Apply afrotc.com by the November/December deadline.</div></div>
+      </div>
+      <div class="check-item ci-ncstate" onclick="toggle(this)" data-id="nc-r2">
+        <div class="checkbox cb-ncstate"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Visit AFROTC Det 595 on campus — sit in on a leadership lab or PT session if possible</span><span class="item-tag tag-fall">Fall</span></div><div class="item-desc">NC State is 30 minutes away. Visiting the detachment before applying sets Ethan apart from applicants who've never set foot on campus. Commanders remember candidates who show up in person.</div></div>
+      </div>
+      <div class="check-item ci-ncstate" onclick="toggle(this)" data-id="nc-r3">
+        <div class="checkbox cb-ncstate"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Contact Det 595 and express intent to pursue pilot track through AFROTC</span><span class="item-tag tag-fall">Fall</span></div><div class="item-desc">Email the detachment commander and introduce yourself. Mention your fighter pilot goal, AFA application, and why you're also looking at NC State. A known-quantity candidate starts with an advantage in the program.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><span class="section-icon">⚙️</span><span class="section-title">Aerospace Engineering at NC State</span><span class="section-badge badge-done">Know before you apply</span></div>
+    <div class="checklist">
+      <div class="check-item ci-ncstate" onclick="toggle(this)" data-id="nc-e1">
+        <div class="checkbox cb-ncstate"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Confirm Calculus and Physics are in senior year schedule</span><span class="item-tag tag-now">Check now</span></div><div class="item-desc">NC State's engineering program requires calculus and physics in the first year. Having these completed or in progress strengthens your application to the engineering college specifically.</div></div>
+      </div>
+      <div class="check-item ci-ncstate" onclick="toggle(this)" data-id="nc-e2">
+        <div class="checkbox cb-ncstate"><span class="checkmark">✓</span></div>
+        <div class="item-content"><div class="item-header"><span class="item-title">Research NC State's Aerospace Engineering tracks — look at the MAE department page</span><span class="item-tag tag-sum">This summer</span></div><div class="item-desc">NC State's Department of Mechanical and Aerospace Engineering (MAE) offers strong tracks in flight mechanics and propulsion. Knowing specific faculty research areas or lab names before you apply adds specificity to your essays.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<div class="footer">
+  Built for <span>Ethan Flowers</span> — Senior Year 2026–2027 · Air Force Academy Candidate · Fighter Pilot Track<br>
+  <span style="color:var(--text-muted);font-size:10px;">Check items off as you complete them. Progress saves automatically in this browser.</span>
+</div>
+
+<script>
+  const KEY = 'ethan_roadmap_v3';
+
+  function getState() {
+    try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e) { return {}; }
+  }
+  function saveState(s) {
+    try { localStorage.setItem(KEY, JSON.stringify(s)); } catch(e) {}
+  }
+
+  function toggle(el) {
+    const id = el.dataset.id;
+    const state = getState();
+    if (el.classList.contains('done')) {
+      el.classList.remove('done');
+      delete state[id];
+    } else {
+      el.classList.add('done');
+      state[id] = true;
+    }
+    saveState(state);
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const all  = document.querySelectorAll('.check-item').length;
+    const done = document.querySelectorAll('.check-item.done').length;
+    const pct  = all ? Math.round((done / all) * 100) : 0;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressPct').textContent = pct + '%';
+  }
+
+  function loadState() {
+    const state = getState();
+    document.querySelectorAll('.check-item').forEach(el => {
+      if (state[el.dataset.id]) el.classList.add('done');
+    });
+    updateProgress();
+  }
+
+  function switchTab(name) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    document.querySelector('.tab-btn[data-tab="' + name + '"]').classList.add('active');
+  }
+
+  loadState();
+</script>
+</body>
+</html>
